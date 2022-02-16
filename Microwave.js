@@ -1,8 +1,9 @@
-Status = "";
+status = "";
 Microwave_image = "";
+objects = [];
 
 function preload(){
-   Microwave_image = loadImage("Microwave.jpg");
+    Microwave_image = loadImage("Microwave.jpg");
 }
 
 function setup(){
@@ -14,7 +15,7 @@ function setup(){
 
 function modelLoaded(){
     console.log("Model Loaded!");
-    Status = true;
+    status = true;
     object_Detector.detect(Microwave_image,gotResults);
 }
 
@@ -25,6 +26,20 @@ function gotResults(error,results){
     console.log(results);
 }
 
-function draw(){
-    image(Microwave_image,0,0,640,350);
-}
+function draw() {
+    Microwave_image(img, 0, 0, 640, 420);
+  
+        if(status != "")
+        {
+          for (i = 0; i < objects.length; i++) {
+            document.getElementById("status").innerHTML = "Status : Object Detected";
+      
+            fill("#30b009");
+            percent = floor(objects[i].confidence * 100);
+            text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 15);
+            noFill();
+            stroke("#30b009");
+            rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+          }
+        }
+  }
